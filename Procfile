@@ -1,1 +1,1 @@
-web: gunicorn config.wsgi --log-file -
+web: gunicorn accessibility_map.config.settings.wsgi --log-file -
