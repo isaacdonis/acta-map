@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Accessible is each station?</title>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+    <!-- Styles -->
+
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+          }
+
+        .marker {
+            background-image: url('mapbox-icon.png');
+            background-size: cover;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1 style="text-align: center;">How Accessible is each station?</h1>
+    </header>
+
+    <!-- Main -->
+    <main>
+        <!-- Add your div tag -->
+        <p>The purpose of this map is to help the NYC-based disabled community plan their trips to new places.</p>
+        <p>Each subway station on this map is graded by color. Green means that the station is good, red is bad; there are many colors in between.</p>
+
+        <div id='map' style='width: 900px; height: 500px;'></div>
+    </main>
+
+    <!-- Scripts -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiaWNkb25pcyIsImEiOiJjbGZlY3RmYTkwMmxvM3Bxbnp2YnU2aWR2In0.OdqH3NLK3-fyd6UDcI5gbQ';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            center: [-73.93006, 40.69218],
+            style: 'mapbox://styles/mapbox/streets-v11',
+            zoom: 8.5
+        });
+
+        // this counts as loading your data
+        const geojson = {
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [-73.032, 40.913]
+              },
+              properties: {
+                title: 'Mapbox',
+                description: 'New York City, Point 1'
+              }
+            },
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [-73.414, 40.776]
+              },
+              properties: {
+                title: 'Mapbox',
+                description: 'New York City, Point 2'
+              }
+            }
+          ]
+        };
+        
+        // add markers to map
+        for (const feature of geojson.features) {
+            // create a HTML element for each feature
+            const el = document.createElement('div');
+            el.className = 'marker';
+        
+            // make a marker for each feature and add to the map
+            new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
+        }
+
+
+    </script>
+
+    
+
+
+
+</body>
+</html>
