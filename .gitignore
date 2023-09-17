@@ -1,4 +1,2 @@
-*.pyc
-pages/migrations/*
 *.csv
 db.sqlite3
