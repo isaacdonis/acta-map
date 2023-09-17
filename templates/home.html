@@ -8,23 +8,6 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
     <!-- Styles -->
 
-    <style>
-        #map {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100%;
-          }
-
-        .marker {
-            background-image: url('mapbox-icon.png');
-            background-size: cover;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-    </style>
 
 </head>
 <body>
@@ -62,37 +45,45 @@
               type: 'Feature',
               geometry: {
                 type: 'Point',
-                coordinates: [-73.032, 40.913]
+                coordinates: [-73.9857, 40.7484]
               },
               properties: {
                 title: 'Mapbox',
-                description: 'New York City, Point 1'
+                description: 'Empire State Building'
               }
             },
             {
               type: 'Feature',
               geometry: {
                 type: 'Point',
-                coordinates: [-73.414, 40.776]
+                coordinates: [-73.9897, 40.7411]
               },
               properties: {
                 title: 'Mapbox',
-                description: 'New York City, Point 2'
+                description: 'Flatiron Building'
               }
             }
           ]
         };
         
         // add markers to map
-        for (const feature of geojson.features) {
-            // create a HTML element for each feature
-            const el = document.createElement('div');
-            el.className = 'marker';
-        
-            // make a marker for each feature and add to the map
-            new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
-        }
+        geojson.features.forEach(function (station, i)
+        {
+            station.properties.id = i;
+        });
 
+        map.on('load', () => {
+            /* Add the data to your map as a layer */
+            map.addLayer({
+              id: 'locations',
+              type: 'circle',
+              /* Add a GeoJSON source containing place coordinates and information. */
+              source: {
+                type: 'geojson',
+                data: geojson
+              }
+            });
+          });
 
     </script>
 
