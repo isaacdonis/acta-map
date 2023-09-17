@@ -20,7 +20,7 @@
     <main>
         <!-- Add your div tag -->
         <p>The purpose of this map is to help the NYC-based disabled community plan their trips to new places.</p>
-        <p>Each subway station on this map is graded by color. Green means that the station is good, red is bad; there are many colors in between.</p>
+        <p>Click on a Subway station to get information about it.</p>
 
         <div id='map' style='width: 900px; height: 500px;'></div>
     </main>
@@ -34,7 +34,7 @@
             container: 'map',
             center: [-73.93006, 40.69218],
             style: 'mapbox://styles/mapbox/streets-v11',
-            zoom: 8.5
+            zoom: 10
         });
 
         // this counts as loading your data
@@ -46,6 +46,7 @@
 
         const lat_values = {{lat}}
         const lon_values = {{lon}}
+        const descriptions = {{descriptions | safe}}
         let i = 0
         while (i < lat_values.length)
         {
@@ -58,7 +59,7 @@
                     coordinates: [lon, lat]
                 },
                 properties: {
-                    title: 'Mapbox'
+                    description: descriptions[i]
                 }
             })
 
@@ -78,11 +79,18 @@
             });
           });
 
+        map.on('click', 'locations', (e) => {
+
+            const descript = e.features[0].properties.description;
+            const coordinates = e.features[0].geometry.coordinates.slice();
+
+            new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(descript)
+                .addTo(map);
+        });
+
     </script>
-
-    
-
-
 
 </body>
 </html>

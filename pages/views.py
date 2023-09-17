@@ -1,4 +1,5 @@
 import random
+import json
 from typing import Any, Dict
 from .models import SubwayStations
 from django.shortcuts import render
@@ -35,15 +36,21 @@ class HomePageView(TemplateView):
 
         lat_values = []
         lon_values = []
+        descriptions = []
         for station in subway_station_locations:
             lat = station.lat
             lon = station.lon
 
             lat_values.append(lat)
             lon_values.append(lon)
+            descriptions.append(json.dumps(random.sample(['This station has a narrow platform.', 
+                                   'If  going towards Manhattan, turn left as you exit the train.',
+                                   'There is an elevator, but it\'s typically always full between 4-6:30PM',
+                                   'The elevator at this station is known to entrap people. The last entrapment was June 18th, 2022.'],1).pop()))
 
         context = super().get_context_data(**kwargs)
         context["lat"] = lat_values
         context["lon"] = lon_values
+        context["descriptions"] = descriptions
 
         return context
