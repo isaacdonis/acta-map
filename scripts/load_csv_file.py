@@ -11,7 +11,7 @@ def run():
         for row in reader:
             print(row)
 
-            subway_stations = SubwayStations(lon=row[0],
-                        lat=row[1])
+            subway_stations = SubwayStations(lat=row[0],
+                        lon=row[1])
             
             subway_stations.save()

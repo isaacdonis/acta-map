@@ -38,39 +38,32 @@
         });
 
         // this counts as loading your data
-        const geojson = {
+        const geojson_values = {
           type: 'FeatureCollection',
-          features: [
-            {
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: [-73.9857, 40.7484]
-              },
-              properties: {
-                title: 'Mapbox',
-                description: 'Empire State Building'
-              }
-            },
-            {
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: [-73.9897, 40.7411]
-              },
-              properties: {
-                title: 'Mapbox',
-                description: 'Flatiron Building'
-              }
-            }
-          ]
+          features: []
+
         };
-        
-        // add markers to map
-        geojson.features.forEach(function (station, i)
+
+        const lat_values = {{lat}}
+        const lon_values = {{lon}}
+        let i = 0
+        while (i < lat_values.length)
         {
-            station.properties.id = i;
-        });
+            lat = lat_values[i]
+            lon = lon_values[i]
+            geojson_values.features.push({
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [lon, lat]
+                },
+                properties: {
+                    title: 'Mapbox'
+                }
+            })
+
+            i++
+        }
 
         map.on('load', () => {
             /* Add the data to your map as a layer */
@@ -80,7 +73,7 @@
               /* Add a GeoJSON source containing place coordinates and information. */
               source: {
                 type: 'geojson',
-                data: geojson
+                data: geojson_values
               }
             });
           });

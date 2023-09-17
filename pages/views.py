@@ -1,3 +1,4 @@
+import random
 from typing import Any, Dict
 from .models import SubwayStations
 from django.shortcuts import render
@@ -29,24 +30,20 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
 
-        subway_location_dict = dict()
-        subway_location_dict["trees"] = {"type":"FeatureCollection",
-                                            "features":[]}
-    
         # get the subway location that is in the database
         subway_station_locations = SubwayStations.objects.all()
 
+        lat_values = []
+        lon_values = []
         for station in subway_station_locations:
             lat = station.lat
             lon = station.lon
 
-            features_dict = dict()
-            features_dict["type"] = "Feature"
-            features_dict["geometry"] = {"type":"Point", "coordinates":[lon,lat]}
-
-            subway_location_dict["trees"]["features"].append(features_dict)
+            lat_values.append(lat)
+            lon_values.append(lon)
 
         context = super().get_context_data(**kwargs)
-        context["points"] = subway_location_dict
+        context["lat"] = lat_values
+        context["lon"] = lon_values
 
         return context
