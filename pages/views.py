@@ -36,21 +36,34 @@ class HomePageView(TemplateView):
 
         lat_values = []
         lon_values = []
-        descriptions = []
+        descriptions_values = []
         for station in subway_station_locations:
             lat = station.lat
             lon = station.lon
+            descrip = self.clean_descrip(station.shortdescription)
+            els = self.clean_elevators(station.equipmentno)
+
+            split_desc = descrip.split(",")
+            split_els = els.split(",")
+            total_desc = " | ".join([x.strip(r"'") + ": " + y.strip(r"'") for x,y in zip(split_els, split_desc)])
 
             lat_values.append(lat)
             lon_values.append(lon)
-            descriptions.append(json.dumps(random.sample(['This station has a narrow platform.', 
-                                   'If  going towards Manhattan, turn left as you exit the train.',
-                                   'There is an elevator, but it\'s typically always full between 4-6:30PM',
-                                   'The elevator at this station is known to entrap people. The last entrapment was June 18th, 2022.'],1).pop()))
+            descriptions_values.append(total_desc)
 
         context = super().get_context_data(**kwargs)
         context["lat"] = lat_values
         context["lon"] = lon_values
-        context["descriptions"] = descriptions
+        context["descriptions"] = descriptions_values
 
         return context
+    
+    def clean_descrip(self, descrip):
+        
+        descrip = descrip.strip("()")
+
+        return descrip
+    
+    def clean_elevators(self, el_str):
+
+        return el_str.strip("()")
