@@ -69,7 +69,10 @@ class HomePageView(TemplateView):
     def clean_elevators(self, el_str):
 
         return el_str.strip("()")
-    
+
+def StationFeedback(TemplateView):
+    template_name = "station_feedback.html"
+
 class ContactPage(TemplateView):
     template_name = "contact.html"
 
