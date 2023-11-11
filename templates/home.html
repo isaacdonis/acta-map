@@ -1,27 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How Accessible is each station?</title>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
-    <!-- Styles -->
-
-
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <h1 style="text-align: center;">How Accessible is each station?</h1>
-    </header>
+{% extends 'base.html' %}
+{% block content %}
+    <h3 style="text-align: center;">How Accessible is each station? Click on a Subway station to view community notes about it</h3>
 
     <!-- Main -->
     <main>
-        <!-- Add your div tag -->
-        <p>The purpose of this map is to help the NYC-based disabled community plan their trips to new places.</p>
-        <p>Click on a Subway station to get information about it.</p>
-
         <div id='map' style='width: 900px; height: 500px;'></div>
     </main>
 
@@ -91,6 +73,4 @@
         });
 
     </script>
-
-</body>
-</html>
+{% endblock content %}

@@ -4,6 +4,8 @@ from typing import Any, Dict
 from .models import SubwayStations
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
+from .forms import FeedbackForm
 
 class HomePageView(TemplateView):
     """
@@ -67,3 +69,9 @@ class HomePageView(TemplateView):
     def clean_elevators(self, el_str):
 
         return el_str.strip("()")
+    
+class ContactPage(TemplateView):
+    template_name = "contact.html"
+
+class AboutPage(TemplateView):
+    template_name = "about.html"
