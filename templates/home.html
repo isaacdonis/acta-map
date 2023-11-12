@@ -60,9 +60,8 @@
               }
             });
           });
-
-        map.on('click', 'locations', (e) => {
-
+        
+        {% comment %} map.on('mousemove', 'locations', (e) => {
             const descript = e.features[0].properties.description;
             const coordinates = e.features[0].geometry.coordinates.slice();
 
@@ -70,6 +69,10 @@
                 .setLngLat(coordinates)
                 .setHTML(descript)
                 .addTo(map);
+        }); {% endcomment %}
+
+        map.on('click', 'locations', (e) => {
+            return window.location.href = "{% url 'map' %}"
         });
 
     </script>
