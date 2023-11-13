@@ -4,8 +4,7 @@ from typing import Any, Dict
 from .models import SubwayStations
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
-from .forms import FeedbackForm
+from django.views.generic import DetailView, ListView
 
 class HomePageView(TemplateView):
     """
@@ -70,7 +69,8 @@ class HomePageView(TemplateView):
 
         return el_str.strip("()")
 
-def StationFeedback(TemplateView):
+class StationFeedback(DetailView):
+    model = SubwayStations
     template_name = "station_feedback.html"
 
 class ContactPage(TemplateView):

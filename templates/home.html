@@ -72,6 +72,9 @@
         }); {% endcomment %}
 
         map.on('click', 'locations', (e) => {
+
+            const descript = e.features[0].properties.description;
+
             return window.location.href = "{% url 'map' %}"
         });
 
