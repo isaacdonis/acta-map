@@ -8,8 +8,8 @@
     </main>
 
     <ul>
-        {% for article in object_list %}
-            <li>{{ article.lat }} - {{ article.lon }}</li>
+        {% for object in object_list %}
+            <li><a href="{% url 'stationfeedback' object.pk %}">{{object.lat}} - {{object.lon}}</li>
         {% empty %}
             <li>Wrong thing.</li>
         {% endfor %}
@@ -81,13 +81,6 @@
                 .addTo(map);
         }); {% endcomment %}
 
-        map.on('click', 'locations', (e) => {
-
-            const location_obj = e.features[0]
-            const id_value = location_obj.properties.id_value;
-
-            return window.location.href = "{% url 'map' %}"
-        });
 
     </script>
 {% endblock content %}

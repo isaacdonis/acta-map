@@ -1,12 +1,14 @@
 import random
 import json
-from typing import Any, Dict
+from typing import Any, Dict, Optional
+
+from django.db import models
 from .models import SubwayStations
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.generic import DetailView, ListView
 
-class HomePageView(TemplateView):
+class HomePageView(ListView):
     """
     The format that this data needs to be in is:
 
@@ -38,7 +40,10 @@ class HomePageView(TemplateView):
         lat_values = []
         lon_values = []
         descriptions_values = []
+        id_values = []
+        id = 0
         for station in subway_station_locations:
+            id += 1
             lat = station.lat
             lon = station.lon
             descrip = self.clean_descrip(station.shortdescription)
@@ -51,11 +56,13 @@ class HomePageView(TemplateView):
             lat_values.append(lat)
             lon_values.append(lon)
             descriptions_values.append(total_desc)
+            id_values.append(id)
 
         context = super().get_context_data(**kwargs)
         context["lat"] = lat_values
         context["lon"] = lon_values
         context["descriptions"] = descriptions_values
+        context["id_values"] = id_values
 
         return context
     
@@ -70,8 +77,12 @@ class HomePageView(TemplateView):
         return el_str.strip("()")
 
 class StationFeedback(DetailView):
+    pk = None
     model = SubwayStations
     template_name = "station_feedback.html"
+
+    def get_object(self):
+        return self.kwargs["pk"]
 
 class ContactPage(TemplateView):
     template_name = "contact.html"
