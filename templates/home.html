@@ -7,6 +7,14 @@
         <div id='map' style='width: 900px; height: 500px;'></div>
     </main>
 
+    <ul>
+        {% for article in object_list %}
+            <li>{{ article.lat }} - {{ article.lon }}</li>
+        {% empty %}
+            <li>Wrong thing.</li>
+        {% endfor %}
+    </ul>
+
     <!-- Scripts -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
 
@@ -29,6 +37,7 @@
         const lat_values = {{lat}}
         const lon_values = {{lon}}
         const descriptions = {{descriptions | safe}}
+        const id_values = {{id_values}}
         let i = 0
         while (i < lat_values.length)
         {
@@ -41,7 +50,8 @@
                     coordinates: [lon, lat]
                 },
                 properties: {
-                    description: descriptions[i]
+                    description: descriptions[i],
+                    id_value: id_values[i]
                 }
             })
 
@@ -73,7 +83,8 @@
 
         map.on('click', 'locations', (e) => {
 
-            const descript = e.features[0].properties.description;
+            const location_obj = e.features[0]
+            const id_value = location_obj.properties.id_value;
 
             return window.location.href = "{% url 'map' %}"
         });
