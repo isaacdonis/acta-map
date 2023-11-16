@@ -36,8 +36,8 @@
 
         const lat_values = {{lat}}
         const lon_values = {{lon}}
-        {% comment %} const descriptions = {{descriptions | safe}}
-        const id_values = {{id_values}} {% endcomment %}
+        const stop_names = {{stop_name | safe}}
+        
         let i = 0
         while (i < lat_values.length)
         {
@@ -49,10 +49,9 @@
                     type: 'Point',
                     coordinates: [lon, lat]
                 },
-                {% comment %} properties: {
-                    description: descriptions[i],
-                    id_value: id_values[i]
-                } {% endcomment %}
+                properties: {
+                    station_name: stop_names[i],
+                }
             })
 
             i++
@@ -70,8 +69,7 @@
               }
             });
           });
-        
-        {% comment %} map.on('mousemove', 'locations', (e) => {
+                {% comment %} map.on('mousemove', 'locations', (e) => {
             const descript = e.features[0].properties.description;
             const coordinates = e.features[0].geometry.coordinates.slice();
 
@@ -80,6 +78,15 @@
                 .setHTML(descript)
                 .addTo(map);
         }); {% endcomment %}
+        map.on('mousemove', 'locations', (e) => {
+            const name = e.features[0].properties.station_name;
+            const coordinates = e.features[0].geometry.coordinates.slice();
+
+            new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(name)
+                .addTo(map);
+        });
 
 
     </script>

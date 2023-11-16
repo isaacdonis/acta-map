@@ -40,28 +40,21 @@ class HomePageView(ListView):
 
         lat_values = []
         lon_values = []
-        # descriptions_values = []
-        # id_values = []
-        # id = 0
+        stop_names = []
+
         for station in subway_station_locations:
-            # id += 1
             lat = station.lat
             lon = station.lon
-            # descrip = self.clean_descrip(station.shortdescription)
-            # els = self.clean_elevators(station.equipmentno)
-
-            # split_desc = descrip.split(",")
-            # split_els = els.split(",")
-            # total_desc = " | ".join([x.strip(r"'") + ": " + y.strip(r"'") for x,y in zip(split_els, split_desc)])
+            stop_name = station.stop_name
 
             lat_values.append(lat)
             lon_values.append(lon)
-            # descriptions_values.append(total_desc)
-            # id_values.append(id)
+            stop_names.append(stop_name)
 
         context = super().get_context_data(**kwargs)
         context["lat"] = lat_values
         context["lon"] = lon_values
+        context["stop_name"] = stop_names
 
         return context
     
