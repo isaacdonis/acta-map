@@ -9,9 +9,9 @@
 
     <ul>
         {% for object in object_list %}
-            <li><a href="{% url 'stationfeedback' object.pk %}">{{object.lat}} - {{object.lon}}</li>
+            <li><a href="{% url 'stationfeedback' object.pk %}">{{object.stop_name}} {{object.line}}</li>
         {% empty %}
-            <li>Wrong thing.</li>
+            <li>Something went wrong.</li>
         {% endfor %}
     </ul>
 
@@ -36,8 +36,8 @@
 
         const lat_values = {{lat}}
         const lon_values = {{lon}}
-        const descriptions = {{descriptions | safe}}
-        const id_values = {{id_values}}
+        {% comment %} const descriptions = {{descriptions | safe}}
+        const id_values = {{id_values}} {% endcomment %}
         let i = 0
         while (i < lat_values.length)
         {
@@ -49,10 +49,10 @@
                     type: 'Point',
                     coordinates: [lon, lat]
                 },
-                properties: {
+                {% comment %} properties: {
                     description: descriptions[i],
                     id_value: id_values[i]
-                }
+                } {% endcomment %}
             })
 
             i++

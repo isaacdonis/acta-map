@@ -7,6 +7,7 @@ from .models import SubwayStations
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.generic import DetailView, ListView
+from django.views.generic.edit import UpdateView
 
 class HomePageView(ListView):
     """
@@ -39,30 +40,28 @@ class HomePageView(ListView):
 
         lat_values = []
         lon_values = []
-        descriptions_values = []
-        id_values = []
-        id = 0
+        # descriptions_values = []
+        # id_values = []
+        # id = 0
         for station in subway_station_locations:
-            id += 1
+            # id += 1
             lat = station.lat
             lon = station.lon
-            descrip = self.clean_descrip(station.shortdescription)
-            els = self.clean_elevators(station.equipmentno)
+            # descrip = self.clean_descrip(station.shortdescription)
+            # els = self.clean_elevators(station.equipmentno)
 
-            split_desc = descrip.split(",")
-            split_els = els.split(",")
-            total_desc = " | ".join([x.strip(r"'") + ": " + y.strip(r"'") for x,y in zip(split_els, split_desc)])
+            # split_desc = descrip.split(",")
+            # split_els = els.split(",")
+            # total_desc = " | ".join([x.strip(r"'") + ": " + y.strip(r"'") for x,y in zip(split_els, split_desc)])
 
             lat_values.append(lat)
             lon_values.append(lon)
-            descriptions_values.append(total_desc)
-            id_values.append(id)
+            # descriptions_values.append(total_desc)
+            # id_values.append(id)
 
         context = super().get_context_data(**kwargs)
         context["lat"] = lat_values
         context["lon"] = lon_values
-        context["descriptions"] = descriptions_values
-        context["id_values"] = id_values
 
         return context
     
@@ -76,13 +75,10 @@ class HomePageView(ListView):
 
         return el_str.strip("()")
 
-class StationFeedback(DetailView):
-    pk = None
+class StationFeedback(DetailView, UpdateView):
     model = SubwayStations
+    fields = ["stop_name", "ada", "ada_notes"]
     template_name = "station_feedback.html"
-
-    def get_object(self):
-        return self.kwargs["pk"]
 
 class ContactPage(TemplateView):
     template_name = "contact.html"
