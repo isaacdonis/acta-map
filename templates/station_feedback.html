@@ -2,10 +2,19 @@
 {% block content %}
 
 <!-- INSERT STATION NAME HERE -->
-<h3>The community has collected these notes about the station:</h3>
+<h3>The community has collected these notes about the {{object.stop_name}} {{object.line}} station:</h3>
+
+{% for feedback in subwaystations.list_feedback_items %}
+<li>{{feedback}}</li>
+{% endfor %}
 
 <h4><u>ADA information</u></h4>
 
 <p> There are {{object.ada}} ADA elevator(s) at this station.</p> <p>{{object.ada_notes}}</p>
 
+<h3><u>Submit your feedback about this station</h3></u>
+<form action="", method="post">{% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Share with community">
+    </form>
 {% endblock content%}

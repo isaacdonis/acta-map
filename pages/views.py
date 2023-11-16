@@ -77,7 +77,7 @@ class HomePageView(ListView):
 
 class StationFeedback(DetailView, UpdateView):
     model = SubwayStations
-    fields = ["stop_name", "ada", "ada_notes"]
+    fields = ["community_feedback"]
     template_name = "station_feedback.html"
 
 class ContactPage(TemplateView):
