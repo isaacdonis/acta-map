@@ -23,7 +23,7 @@ class SubwayStations(models.Model):
     lon = models.FloatField(null=False, blank=False, default=-1)
     lat = models.FloatField(null=False, blank=False, default=-1)
     community_feedback = models.TextField(null=False, blank=False, default="Enter advice to the community about this station here.")
-    all_comm_feedback = models.TextField(null=True, blank=False, default="There are currently no community details. Please fill out the form below")
+    all_comm_feedback = models.TextField(null=True, blank=False, default="Community feedback will appear below here when you fill out the form below")
 
     def __str__(self):
         return f"{self.lat},{self.lon}"
