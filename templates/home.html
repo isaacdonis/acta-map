@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
     <h3 style="text-align: center;">How Accessible is each station? Click on a Subway station to view community notes about it</h3>
 
@@ -19,6 +20,7 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
 
     <script>
+
         mapboxgl.accessToken = 'pk.eyJ1IjoiaWNkb25pcyIsImEiOiJjbGZlY3RmYTkwMmxvM3Bxbnp2YnU2aWR2In0.OdqH3NLK3-fyd6UDcI5gbQ';
         var map = new mapboxgl.Map({
             container: 'map',
@@ -58,6 +60,27 @@
 
             i++
         }
+
+        // Add markers to the map.
+        for (const marker of geojson_values.features) {
+            // Create a DOM element for each marker.
+            const el = document.createElement('div');
+            const width = 5;
+            const height = 5;
+            el.className = 'marker';
+
+            el.style.backgroundImage = "url({% static 'images/mapbox-icon.png' %})";
+            el.style.width = '15px';
+            el.style.height = '15px';
+            el.style.backgroundSize = '100%';
+            
+            
+            // Add markers to the map.
+            new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .addTo(map);
+            }
+
 
         map.on('load', () => {
             /* Add the data to your map as a layer */
