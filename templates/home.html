@@ -88,6 +88,10 @@
                 .addTo(map);
         });
 
+        map.on('mouseleave', 'locations', (e) => {
+            pop.remove();
+        });
+
 
     </script>
 {% endblock content %}
