@@ -76,23 +76,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'd7eo43u3mo61ss',
-#         'USER': 'iqstvirxitupon',
-#         'PASSWORD': 'a77bc55d85377ee9287ee1fd8e4db1178097f72fb33a8e59dfb922e76a3b249e',
-#         'HOST': 'ec2-44-215-211-215.compute-1.amazonaws.com',
-#         'PORT': '5432',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd7eo43u3mo61ss',
+        'USER': 'iqstvirxitupon',
+        'PASSWORD': 'a77bc55d85377ee9287ee1fd8e4db1178097f72fb33a8e59dfb922e76a3b249e',
+        'HOST': 'ec2-44-215-211-215.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
