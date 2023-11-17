@@ -23,7 +23,7 @@ class SubwayStations(models.Model):
     lon = models.FloatField(null=False, blank=False, default=-1)
     lat = models.FloatField(null=False, blank=False, default=-1)
     community_feedback = models.TextField(null=False, blank=False, default="Enter advice to the community about this station here.")
-    all_comm_feedback = models.TextField(null=True, blank=False, default="")
+    all_comm_feedback = models.TextField(null=True, blank=False, default="There are currently no community details. Please fill out the form below")
 
     def __str__(self):
         return f"{self.lat},{self.lon}"
@@ -33,14 +33,11 @@ class SubwayStations(models.Model):
     
     def list_feedback_items(self):
 
-        if not self.all_comm_feedback:
-            return
-
-        return self.all_comm_feedback
+        return self.all_comm_feedback.split("\n")
 
     def save(self, *args, **kwargs):
         self.all_comm_feedback = self.all_comm_feedback + "\n" + self.community_feedback.strip()
         self.all_comm_feedback = self.all_comm_feedback.strip()
-        self.all_comm_feedback.split("\n")
+        
         super(SubwayStations, self).save(*args, **kwargs)
     
