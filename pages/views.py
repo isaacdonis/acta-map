@@ -41,20 +41,24 @@ class HomePageView(ListView):
         lat_values = []
         lon_values = []
         stop_names = []
+        line_names = []
 
         for station in subway_station_locations:
             lat = station.lat
             lon = station.lon
             stop_name = station.stop_name
+            line = station.line
 
             lat_values.append(lat)
             lon_values.append(lon)
             stop_names.append(stop_name)
+            line_names.append(line)
 
         context = super().get_context_data(**kwargs)
         context["lat"] = lat_values
         context["lon"] = lon_values
         context["stop_name"] = stop_names
+        context["line_name"] = line_names
 
         return context
     
