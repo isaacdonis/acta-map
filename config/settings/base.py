@@ -14,13 +14,14 @@ import os
 from pathlib import Path
 
 import dj_database_url
+from django.utils.log import DEFAULT_LOGGING
 from dotenv import load_dotenv
 
 # loads environment variables from .env file locally
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -126,6 +127,4 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# import django_heroku
-
-# django_heroku.settings(locals())
+LOGGING = DEFAULT_LOGGING
