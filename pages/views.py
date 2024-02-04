@@ -1,13 +1,14 @@
-import random
 import json
+import random
 from typing import Any, Dict, Optional
 
 from django.db import models
-from .models import SubwayStations
 from django.shortcuts import render
-from django.views.generic import TemplateView
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.edit import UpdateView
+
+from .models import SubwayStation
+
 
 class HomePageView(ListView):
     """
@@ -17,11 +18,11 @@ class HomePageView(ListView):
         type: 'FeatureCollection',
         features: [
             {
-                "type": "Feature", 
+                "type": "Feature",
                 "geometry": {
                     "type": "Point",
                     "coordinates": [-74.07515140286641, 40.581379513893616]
-                }, 
+                },
                 "properties": {
                     "clearance": "13'2"
                 }
@@ -30,13 +31,12 @@ class HomePageView(ListView):
     }
     """
 
-    model = SubwayStations
+    model = SubwayStation
     template_name = "home.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-
         # get the subway location that is in the database
-        subway_station_locations = SubwayStations.objects.all()
+        subway_station_locations = SubwayStation.objects.all()
 
         lat_values = []
         lon_values = []
@@ -65,24 +65,25 @@ class HomePageView(ListView):
         context["adas"] = ada_values
 
         return context
-    
+
     def clean_descrip(self, descrip):
-        
         descrip = descrip.strip("()")
 
         return descrip
-    
-    def clean_elevators(self, el_str):
 
+    def clean_elevators(self, el_str):
         return el_str.strip("()")
 
+
 class StationFeedback(DetailView, UpdateView):
-    model = SubwayStations
+    model = SubwayStation
     fields = ["community_feedback"]
     template_name = "station_feedback.html"
 
+
 class ContactPage(TemplateView):
     template_name = "contact.html"
+
 
 class AboutPage(TemplateView):
     template_name = "about.html"
