@@ -36,6 +36,7 @@ class HomePageView(ListView):
         # get the subway location that is in the database
         subway_station_locations = SubwayStation.objects.all()
 
+        object_ids = []
         lat_values = []
         lon_values = []
         stop_names = []
@@ -49,6 +50,7 @@ class HomePageView(ListView):
             line = station.line
             ada = station.ada
 
+            object_ids.append(station.pk)
             lat_values.append(lat)
             lon_values.append(lon)
             stop_names.append(stop_name)
@@ -56,6 +58,7 @@ class HomePageView(ListView):
             ada_values.append(ada)
 
         context = super().get_context_data(**kwargs)
+        context["object_ids"] = object_ids
         context["lat"] = lat_values
         context["lon"] = lon_values
         context["stop_name"] = stop_names
