@@ -1,5 +1,17 @@
 from django.contrib import admin
 
-from .models import SubwayStation
+from .models import Feedback, SubwayStation
 
-admin.site.register(SubwayStation)
+
+class SubwayStationAdmin(admin.ModelAdmin):
+    list_display = (
+        "stop_name",
+        "lat",
+        "lon",
+        "line",
+        "ada",
+    )
+
+
+admin.site.register(SubwayStation, SubwayStationAdmin)
+admin.site.register(Feedback)

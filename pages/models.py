@@ -3,7 +3,6 @@ from django.db import models
 from django.urls import reverse
 
 
-# Create your models here.
 class SubwayStation(models.Model):
     station_id = models.IntegerField(validators=[MaxValueValidator(523)], default=-1)
     complex_id = models.IntegerField(null=False, default=-1)
@@ -49,30 +48,17 @@ class SubwayStation(models.Model):
     )
     lon = models.FloatField(null=False, blank=False, default=-1)
     lat = models.FloatField(null=False, blank=False, default=-1)
-    community_feedback = models.TextField(
-        null=False,
-        blank=False,
-        default="Enter advice to the community about this station here.",
-    )
-    all_comm_feedback = models.TextField(
-        null=True,
-        blank=False,
-        default="Community feedback will appear below here when you fill out the form below",
-    )
 
     def __str__(self):
-        return f"{self.lat},{self.lon}"
+        return f"{self.stop_name} -- {self.lat},{self.lon}"
 
     def get_absolute_url(self):
         return reverse("stationfeedback", kwargs={"pk": self.pk})
 
-    def list_feedback_items(self):
-        return self.all_comm_feedback.split("\n")
 
-    def save(self, *args, **kwargs):
-        self.all_comm_feedback = (
-            self.all_comm_feedback + "\n" + self.community_feedback.strip()
-        )
-        self.all_comm_feedback = self.all_comm_feedback.strip()
+class Feedback(models.Model):
+    station = models.ForeignKey(SubwayStation, on_delete=models.PROTECT)
+    text = models.TextField()
 
-        super(SubwayStation, self).save(*args, **kwargs)
+    def __str__(self):
+        return f"{self.station} - {self.text}"

@@ -1,13 +1,11 @@
 import json
 import random
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
-from django.db import models
-from django.shortcuts import render
-from django.views.generic import DetailView, ListView, TemplateView
-from django.views.generic.edit import UpdateView
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import ListView, TemplateView
 
-from .models import SubwayStation
+from .models import Feedback, SubwayStation
 
 
 class HomePageView(ListView):
@@ -75,10 +73,19 @@ class HomePageView(ListView):
         return el_str.strip("()")
 
 
-class StationFeedback(DetailView, UpdateView):
-    model = SubwayStation
-    fields = ["community_feedback"]
-    template_name = "station_feedback.html"
+# class StationFeedback(DetailView, UpdateView):
+#     model = SubwayStation
+#     fields = ["community_feedback"]
+#     template_name = "station_feedback.html"
+
+
+def station_feedback(request, pk):
+    station = get_object_or_404(SubwayStation, pk=pk)
+
+    if request.method == "POST":
+        Feedback.objects.create(station=station, text=request.POST["feedback"])
+
+    return render(request, "station_feedback.html", {"station": station})
 
 
 class ContactPage(TemplateView):

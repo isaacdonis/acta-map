@@ -2,21 +2,24 @@
 {% block content %}
 
 <!-- INSERT STATION NAME HERE -->
-<h3>The community has collected these notes about the {{object.stop_name}} {{object.line}} station:</h3>
+<h3>The community has collected these notes about the {{station.stop_name}} {{station.line}} station:</h3>
 
-{% for feedback in subwaystations.list_feedback_items %}
 <ul>
-<li>{{feedback}}</li>
+    {% for feedback in station.feedback_set.all %}
+        <li>{{feedback.text}}</li>
+    {% endfor %}
 </ul>
-{% endfor %}
 
 <h4><u>ADA information</u></h4>
 
-<p> There are {{object.ada}} ADA elevator(s) at this station.</p> <p>{{object.ada_notes}}</p>
+<p> There are {{station.ada}} ADA elevator(s) at this station.</p> <p>{{station.ada_notes}}</p>
 
 <h3><u>Submit your feedback about this station</h3></u>
-<form action="", method="post">{% csrf_token %}
-    {{form.as_p}}
+<form action="" method="post">
+    {% csrf_token %}
+    
+    <textarea name="feedback" rows="4" cols="50" placeholder="Enter your feedback here"></textarea>
+
     <input type="submit" value="Share with community">
-    </form>
+</form>
 {% endblock content%}
