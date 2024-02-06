@@ -3,12 +3,12 @@ import random
 from typing import Any, Dict
 
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import ListView, TemplateView
+from django.views.generic import TemplateView
 
 from .models import Feedback, SubwayStation
 
 
-class HomePageView(ListView):
+class HomePageView(TemplateView):
     """
     The format that this data needs to be in is:
 
