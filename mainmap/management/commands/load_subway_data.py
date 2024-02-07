@@ -2,7 +2,7 @@ import csv
 from pathlib import Path
 
 from django.core.management.base import BaseCommand
-from pages.models import SubwayStation
+from mainmap.models import SubwayStation
 
 CSV_PATH = Path(__file__).resolve().parent / "../../../data/subway_data.csv"
 

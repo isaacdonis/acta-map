@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django_extensions",
-    "pages",
+    "mainmap",
 ]
 
 MIDDLEWARE = [
@@ -68,7 +68,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            BASE_DIR.parent / "pages/templates",
+            BASE_DIR.parent / "mainmap/templates",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -126,7 +126,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [BASE_DIR.parent / "pages/static/pages"]
+STATICFILES_DIRS = [BASE_DIR.parent / "mainmap/static/mainmap"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
