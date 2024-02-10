@@ -35,8 +35,7 @@ class Command(BaseCommand):
                     ada_notes=row[14],
                     georeference=row[15],
                     lon=row[16],
-                    lat=row[17],
-                    community_feedback=row[18],
+                    lat=row[17]
                 )
 
                 subway_stations.save()
