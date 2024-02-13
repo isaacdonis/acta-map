@@ -1,6 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
+</style>
+
+{% comment %} <div id="map">
+
+    <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
+  </div> {% endcomment %}
+
+  {% comment %} <script>
+    const map = L.map('map').setView([40.60673864273137, -74.13545719239656], 4); //starting position
+    L.tileLayer('https://isaacdonis.github.io/my_area.pmtiles',{ //style URL
+      tileSize: 512,
+      zoomOffset: -1,
+      minZoom: 1,
+      attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+      crossOrigin: true
+    }).addTo(map);
+  </script> {% endcomment %}
+
+<div id="map">
+    <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
+</div>
+
+// check for the latest version on github...
+<script src="https://unpkg.com/protomaps-leaflet@latest/dist/protomaps-leaflet.min.js"></script>
+<script>
+    const map = L.map('map')
+    var layer = protomapsL.leafletLayer({url:'https://isaacdonis.github.io/my_area.pmtiles'})
+    layer.addTo(map)
+</script>
+
 <p>This was created by Isaac Donis.</p>
 <ul>
     <li><a href="mailto:iscdonis@gmail.com">Email Isaac at iscdonis@gmail.com</a></li>

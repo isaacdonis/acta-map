@@ -47,10 +47,12 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django_extensions",
+    "corsheaders",
     "mainmap",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     # https://whitenoise.readthedocs.io/en/latest/
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -60,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.common.CommonMiddleware"
 ]
 
 ROOT_URLCONF = "actamap.urls"
@@ -80,6 +83,12 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+CORS_ALLOWED_ORIGINS = [
+"https://*herokuapp.com",
+"http://localhost:8080",
+"http://127.0.0.1:9000"
 ]
 
 WSGI_APPLICATION = "actamap.wsgi.application"
