@@ -34,10 +34,22 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
-
 # Application definition
 
+CORS_ALLOW_ALL_ORIGINS = True
+
+# CORS_ALLOWED_ORIGINS = [
+# "https://*herokuapp.com",
+# "http://localhost:8080",
+# "http://127.0.0.1:8000",
+# "https://build.protomaps.com",
+# "https://unpkg.com",
+# "https://api.maptiler.com"
+# ]
+
+
 INSTALLED_APPS = [
+    "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -47,22 +59,24 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django_extensions",
-    "corsheaders",
     "mainmap",
 ]
 
 MIDDLEWARE = [
+    # CORS
     "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.security.SecurityMiddleware",
+    "django.middleware.common.CommonMiddleware",
+
     # https://whitenoise.readthedocs.io/en/latest/
     "whitenoise.middleware.WhiteNoiseMiddleware",
+
+    # Defaults
+    "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django.middleware.common.CommonMiddleware"
 ]
 
 ROOT_URLCONF = "actamap.urls"
@@ -85,11 +99,6 @@ TEMPLATES = [
     },
 ]
 
-CORS_ALLOWED_ORIGINS = [
-"https://*herokuapp.com",
-"http://localhost:8080",
-"http://127.0.0.1:9000"
-]
 
 WSGI_APPLICATION = "actamap.wsgi.application"
 

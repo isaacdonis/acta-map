@@ -27,10 +27,9 @@
     <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
 </div>
 
-// check for the latest version on github...
 <script src="https://unpkg.com/protomaps-leaflet@latest/dist/protomaps-leaflet.min.js"></script>
 <script>
-    const map = L.map('map')
+    const map = L.map('map', {maxZoom:4}).setView([38,-100],3)
     var layer = protomapsL.leafletLayer({url:'https://isaacdonis.github.io/my_area.pmtiles'})
     layer.addTo(map)
 </script>
