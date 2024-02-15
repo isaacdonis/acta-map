@@ -8,127 +8,36 @@
     <!-- Main -->
     <main>
         <div id='map' style='width: 900px; height: 500px;'></div>
+        <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
     </main>
 
     <!-- Scripts -->
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
-
     <script>
         const ICON_URL = '{% static "images/accessible_icon.jpg" %}';
     </script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/protomaps-leaflet@latest/dist/protomaps-leaflet.min.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
 
     <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoiaWNkb25pcyIsImEiOiJjbGZlY3RmYTkwMmxvM3Bxbnp2YnU2aWR2In0.OdqH3NLK3-fyd6UDcI5gbQ';
-        var map = new mapboxgl.Map({
-            container: 'map',
-            center: [-73.93006, 40.69218],
-            style: 'mapbox://styles/mapbox/streets-v11',
-            zoom: 10
-        });
+        const map = L.map('map', {maxZoom:12}).setView([40.69438888596156, -73.98923397215619], 10)
+        var layer = protomapsL.leafletLayer({url:'https://isaacdonis.github.io/my_area.pmtiles'})
+        layer.addTo(map)
 
-        // this counts as loading your data
-        const geojson_values = {
-          type: 'FeatureCollection',
-          features: []
+        var markerCoordinates = [
+        {lat: 40.615320974216964, lng: -73.94408359980547},
+        {lat: 40.680260904136, lng: -73.92727200097477},
+        {lat: 40.77070382483993, lng: -73.96672403146356}
+      ];
 
-        };
-
-        const object_ids = {{object_ids}}
-        const lat_values = {{lat}}
-        const lon_values = {{lon}}
-        const stop_names = {{stop_name | safe}}
-        const line_names = {{line_name | safe}}
-        const ada_counts = {{adas}}
-        
-        let i = 0
-        while (i < lat_values.length)
-        {
-            lat = lat_values[i]
-            lon = lon_values[i]
-            geojson_values.features.push({
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [lon, lat]
-                },
-                properties: {
-                    object_id: object_ids[i],
-                    station_name: stop_names[i],
-                    line_name: line_names[i],
-                    ada: ada_counts[i]
-                }
-            })
-
-            i++
-        }
-
-        // Add markers to the map.
-        for (const marker of geojson_values.features) {
-            // Create a DOM element for each marker.
-            const el = document.createElement('div');
-            const width = 5;
-            const height = 5;
-            el.className = 'marker';
-
-            // console.log(marker.properties.ada)
-
-            if (marker.properties.ada > 0) {
-                el.style.backgroundImage = `url(${ICON_URL})`;
-            }
-
-            el.style.width = '10px';
-            el.style.height = '10px';
-            el.style.backgroundSize = '100%';
-            
-            // Add markers to the map.
-            new mapboxgl.Marker(el)
-            .setLngLat(marker.geometry.coordinates)
-            .addTo(map);
-            }
-
-
-        map.on('load', () => {
-            /* Add the data to your map as a layer */
-            map.addLayer({
-              id: 'locations',
-              type: 'circle',
-              /* Add a GeoJSON source containing place coordinates and information. */
-              source: {
-                type: 'geojson',
-                data: geojson_values
-              }
-            });
-          });
-
-        var popup = new mapboxgl.Popup({
-            closeOnClick: false,
-            offset: [0, -15]
-          })
-
-        map.on('click', 'locations', (e) => {
-            const properties = e.features[0].properties;
-            const object_id = properties.object_id;
-
-            window.location.href = '/stationfeedback/' + object_id;
-        });
-
-        map.on('mousemove', 'locations', (e) => {
-            const properties = e.features[0].properties;
-            const object_id = properties.object_id;
-            const name = properties.station_name;
-            const line = properties.line_name;
-            const coordinates = e.features[0].geometry.coordinates.slice();
-
-            popup
-                .setLngLat(coordinates)
-                .setHTML(name.concat(' - ').concat(line))
-                .addTo(map);
-        });
-
-        map.on('mouseleave', 'locations', (e) => {
-            popup.remove();
-        });
-
+      markerCoordinates.forEach(coord => {
+        L.marker([coord.lat, coord.lng]).addTo(map);
+      });
 
     </script>
+    
 {% endblock content %}
