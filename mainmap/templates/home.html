@@ -28,11 +28,20 @@
         var layer = protomapsL.leafletLayer({url:'https://isaacdonis.github.io/my_area.pmtiles'})
         layer.addTo(map)
 
-        var markerCoordinates = [
-        {lat: 40.615320974216964, lng: -73.94408359980547},
-        {lat: 40.680260904136, lng: -73.92727200097477},
-        {lat: 40.77070382483993, lng: -73.96672403146356}
-      ];
+        // get the values from the Django context
+        const object_ids = {{object_ids}}
+        const lat_values = {{lat}}
+        const lon_values = {{lon}}
+        const stop_names = {{stop_name | safe}}
+        const line_names = {{line_name | safe}}
+        const ada_counts = {{adas}}
+
+        // initialize variables
+        var markerCoordinates = []
+
+        for (let i=0; i < object_ids.length; i++) {
+            markerCoordinates.push({lat: lat_values[i], lng: lon_values[i]})
+        }
 
       markerCoordinates.forEach(coord => {
         L.marker([coord.lat, coord.lng]).addTo(map);
