@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
     <h3 style="text-align: center;">How Accessible is each station?</h3>
-    <p>Click on the links below the map to submit feedback about a station </p>
+    <p>Click on the markers below the map to submit feedback about a station </p>
 
     <!-- Main -->
     <main>
@@ -15,17 +15,19 @@
     <script>
         const ICON_URL = '{% static "images/accessible_icon.jpg" %}';
     </script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/protomaps-leaflet@latest/dist/protomaps-leaflet.min.js"></script>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
 
     <script>
         const map = L.map('map', {maxZoom:12}).setView([40.69438888596156, -73.98923397215619], 10)
         var layer = protomapsL.leafletLayer({url:'https://isaacdonis.github.io/my_area.pmtiles'})
+
+        var custom_icon = L.Icon.extend({
+          options: {
+               iconUrl: "static/images/mapbox-icon.png",
+               iconSize: new L.Point(10, 10),
+             }
+           });
+
+        var smaller_icon = new custom_icon();
         layer.addTo(map)
 
         // get the values from the Django context
@@ -44,7 +46,7 @@
         }
 
       markerCoordinates.forEach(coord => {
-        L.marker([coord.lat, coord.lng]).addTo(map);
+        L.marker([coord.lat, coord.lng], {icon: smaller_icon}).addTo(map);
       });
 
     </script>
