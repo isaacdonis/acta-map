@@ -42,12 +42,16 @@
         var markerCoordinates = []
 
         for (let i=0; i < object_ids.length; i++) {
-            markerCoordinates.push({lat: lat_values[i], lng: lon_values[i]})
+            markerCoordinates.push({lat: lat_values[i], lng: lon_values[i], marker_id: object_ids[i]})
         }
 
       markerCoordinates.forEach(coord => {
-        L.marker([coord.lat, coord.lng], {icon: smaller_icon}).addTo(map);
+        L.marker([coord.lat, coord.lng], {icon: smaller_icon, marker_id: coord.marker_id}).addTo(map).on('click', onClick);
       });
+
+      function onClick(e) {
+        window.location.href = '/stationfeedback/' + e.target.options['marker_id'];
+      }
 
     </script>
     
