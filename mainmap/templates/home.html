@@ -71,16 +71,9 @@
 
       });
 
-      function onMouseOver(e) {
-        var popup = L.popup().setContent(marker.popupContent);
-        window.location.href = '/stationfeedback/' + e.target.options['marker_id'];
-      }
-
       function onClick(e) {
         window.location.href = '/stationfeedback/' + e.target.options['marker_id'];
       }
-
-
 
     </script>
     
