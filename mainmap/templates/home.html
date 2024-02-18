@@ -42,16 +42,45 @@
         var markerCoordinates = []
 
         for (let i=0; i < object_ids.length; i++) {
-            markerCoordinates.push({lat: lat_values[i], lng: lon_values[i], marker_id: object_ids[i]})
+            markerCoordinates.push({lat: lat_values[i], 
+                                    lng: lon_values[i],
+                                    marker_id: object_ids[i],
+                                    stop_name: stop_names[i],
+                                    line_name: line_names[i]})
         }
+      // Function to show popup on marker hover
+      function showPopup(e) {
+        this.openPopup();
+      }
+
+      // Function to hide popup when marker is no longer hovered over
+      function hidePopup(e) {
+        this.closePopup();
+      }
 
       markerCoordinates.forEach(coord => {
-        L.marker([coord.lat, coord.lng], {icon: smaller_icon, marker_id: coord.marker_id}).addTo(map).on('click', onClick);
+        var popup = L.popup().setContent(coord.stop_name + ' - ' + coord.line_name);
+        var markerInstance = L.marker([coord.lat, coord.lng], {icon: smaller_icon, 
+                                          marker_id: coord.marker_id,
+                                          stop_name: coord.stop_name}).addTo(map).on('click', onClick);
+        
+        // create the popup values
+        markerInstance.bindPopup(popup);
+        markerInstance.on('mouseover', showPopup);
+        markerInstance.on('mouseout', hidePopup);
+
       });
+
+      function onMouseOver(e) {
+        var popup = L.popup().setContent(marker.popupContent);
+        window.location.href = '/stationfeedback/' + e.target.options['marker_id'];
+      }
 
       function onClick(e) {
         window.location.href = '/stationfeedback/' + e.target.options['marker_id'];
       }
+
+
 
     </script>
     
