@@ -17,9 +17,16 @@
     </script>
 
     <script>
-        const map = L.map('map', {maxZoom:12}).setView([40.69438888596156, -73.98923397215619], 10)
-        var layer = protomapsL.leafletLayer({url:'https://isaacdonis.github.io/my_area.pmtiles'})
 
+      var southWest = L.latLng(40.580228813973356, -74.44188264040656), // lower left corner (e.g., New York)
+      northEast = L.latLng(40.877854323610315, -73.69502458589801); // upper right corner (e.g., Los Angeles)
+      
+      var bounds = L.latLngBounds(southWest, northEast);
+
+      const map = L.map('map', {minZoom:10, maxZoom: 12, maxBounds: bounds, maxBoundsViscosity: 1}).setView([40.69438888596156, -73.98923397215619], 10).fitBounds(bounds)
+      var layer = protomapsL.leafletLayer({url:'https://isaacdonis.github.io/my_area.pmtiles'})
+
+        // use this icon
         var custom_icon = L.Icon.extend({
           options: {
                iconUrl: "static/images/mapbox-icon.png",
