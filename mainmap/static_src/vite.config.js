@@ -9,10 +9,10 @@ export default {
     extensions: [".js"]
   },
   build: {
-    sourcemap: true,
+    sourcemap: false,
     outDir: resolve("../static/js/dist"),
     assetsDir: "",
-    manifest: true,
+    manifest: "manifest.json",
     emptyOutDir: true,
     target: "es2020",
     rollupOptions: {

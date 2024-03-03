@@ -150,6 +150,7 @@ STORAGES = {
     },
 }
 DJANGO_VITE_ASSETS_PATH = BASE_DIR / ".." / "mainmap" / "static" / "js" / "dist"
+# print("DJANGO_VITE_ASSETS_PATH", DJANGO_VITE_ASSETS_PATH)
 STATICFILES_DIRS = [BASE_DIR.parent / "mainmap/static/mainmap", DJANGO_VITE_ASSETS_PATH]
 DJANGO_VITE_DEV_SERVER_PORT = 5173
 
