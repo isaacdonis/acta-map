@@ -18,3 +18,4 @@ https://subway-accessibility-3839bd01e088.herokuapp.com
 
 - activate the virtualenv - `source venv/bin/activate`
 - run the server - `python manage.py runserver`
+- ALSO, in a separate terminal, run the tailwind watcher: `./bin/tailwind-watch.sh`
