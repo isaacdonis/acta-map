@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: serif;
+  }
+  a { 
+    color: blue;
+    text-decoration: underline;
+
+    &:visited {
+      color: purple;
+    }
+  }
+}
