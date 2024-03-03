@@ -11,7 +11,7 @@ echo "build.sh is running!!!!!"
 
 echo "about to run npm run build................................."
 
-(cd core/static_src && npm install && npm run build)
+(cd mainmap/static_src && npm install && npm run build)
 
 echo "npm run build worked?????????????????????"
 echo ""
