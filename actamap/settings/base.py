@@ -144,7 +144,14 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [BASE_DIR.parent / "mainmap/static/mainmap"]
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+DJANGO_VITE_ASSETS_PATH = BASE_DIR / ".." / "mainmap" / "static" / "js" / "dist"
+STATICFILES_DIRS = [BASE_DIR.parent / "mainmap/static/mainmap", DJANGO_VITE_ASSETS_PATH]
+DJANGO_VITE_DEV_SERVER_PORT = 5173
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
