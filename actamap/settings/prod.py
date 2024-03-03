@@ -6,3 +6,5 @@ DEBUG = False
 LOGGING["handlers"]["console"] = {
     "class": "logging.StreamHandler",
 }
+
+DJANGO_VITE_DEV_MODE = False

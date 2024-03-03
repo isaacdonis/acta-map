@@ -13,9 +13,21 @@ https://subway-accessibility-3839bd01e088.herokuapp.com
 - activate it - `source venv/bin/activate`
 - install dependencies - `pip install -r requirements.txt`
 - run `python manage.py load_subway_data`
+- setup vite/frontend tooling:
+
+```bash
+cd mainmap/static_src
+npm install
+```
 
 ### every time
 
 - activate the virtualenv - `source venv/bin/activate`
 - run the server - `python manage.py runserver`
 - ALSO, in a separate terminal, run the tailwind watcher: `./bin/tailwind-watch.sh`
+- ALSO, in another terminal, cd into the vite-managed javascript code directory and start the server there:
+
+```bash
+cd mainmap/static_src
+npm run dev
+```

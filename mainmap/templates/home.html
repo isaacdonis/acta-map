@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
+{% load django_vite %}
 {% load static %}
+
 {% block content %}
     <h3 style="text-align: center;">How Accessible is each station?</h3>
     <p>Click on the markers below the map to submit feedback about a station </p>
@@ -83,5 +85,8 @@
       }
 
     </script>
+
+    {% vite_hmr_client %}
+    {% vite_asset 'map.js' %}    
     
 {% endblock content %}

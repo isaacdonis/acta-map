@@ -60,6 +60,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "mainmap",
+    # https://github.com/MrBin99/django-vite
+    "django_vite",
 ]
 
 MIDDLEWARE = [
