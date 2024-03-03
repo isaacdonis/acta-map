@@ -1,1 +1,26 @@
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
 echo "build.sh is running!!!!!"
+
+echo "about to run npm run build................................."
+
+(cd core/static_src && npm install && npm run build)
+
+echo "npm run build worked?????????????????????"
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
