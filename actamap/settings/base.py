@@ -144,20 +144,10 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STORAGES = {
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-DJANGO_VITE_ASSETS_PATH = BASE_DIR / ".." / "mainmap" / "static" / "js" / "dist"
-# print("DJANGO_VITE_ASSETS_PATH", DJANGO_VITE_ASSETS_PATH)
-STATICFILES_DIRS = [BASE_DIR.parent / "mainmap/static/mainmap", DJANGO_VITE_ASSETS_PATH]
-DJANGO_VITE_DEV_SERVER_PORT = 5173
-DJANGO_VITE = {
-    "default": {
-        "manifest_path": DJANGO_VITE_ASSETS_PATH / "manifest.json",
-    }
-}
+
+# ***
+# storages AND vite configs defined in dev.py and prod.py!!!
+# ***
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

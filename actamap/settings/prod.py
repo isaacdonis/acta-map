@@ -8,3 +8,15 @@ LOGGING["handlers"]["console"] = {
 }
 
 DJANGO_VITE_DEV_MODE = False
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+DJANGO_VITE_ASSETS_PATH = BASE_DIR / ".." / "mainmap" / "static" / "js" / "dist"
+STATICFILES_DIRS = [BASE_DIR.parent / "mainmap/static/mainmap", DJANGO_VITE_ASSETS_PATH]
+DJANGO_VITE = {
+    "default": {
+        "manifest_path": DJANGO_VITE_ASSETS_PATH / "manifest.json",
+    }
+}
