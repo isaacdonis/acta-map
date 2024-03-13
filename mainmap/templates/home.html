@@ -19,18 +19,26 @@
 
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiaWNkb25pcyIsImEiOiJjbGZlY3RmYTkwMmxvM3Bxbnp2YnU2aWR2In0.OdqH3NLK3-fyd6UDcI5gbQ';
+
+        <!--Define boundaries-->
+        var bounds = [[-74.58963551742433, 40.40699857483299],
+                     [-73.61177016947053, 41.00965094991757]]
+                     
         var map = new mapboxgl.Map({
             container: 'map',
-            center: [-73.93006, 40.69218],
+            center: [-73.97231715755181, 40.70811065720056],
             style: 'mapbox://styles/mapbox/streets-v11',
-            zoom: 10
+            maxBounds: bounds,
+            zoom:8,
+            minZoom:5,
+            maxZoom: 14
         });
+        
 
         // this counts as loading your data
         const geojson_values = {
           type: 'FeatureCollection',
           features: []
-
         };
 
         const object_ids = {{object_ids}}
