@@ -1,92 +1,134 @@
 {% extends 'base.html' %}
 
-{% load django_vite %}
 {% load static %}
-
 {% block content %}
     <h3 style="text-align: center;">How Accessible is each station?</h3>
-    <p>Click on the markers below the map to submit feedback about a station </p>
+    <p>Click on the links below the map to submit feedback about a station </p>
 
     <!-- Main -->
     <main>
-        <div id='map' style='width: 100%; height: 500px;'></div>
-        <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
+        <div id='map' style='width: 900px; height: 500px;'></div>
     </main>
 
     <!-- Scripts -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+
     <script>
         const ICON_URL = '{% static "images/accessible_icon.jpg" %}';
     </script>
 
     <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiaWNkb25pcyIsImEiOiJjbGZlY3RmYTkwMmxvM3Bxbnp2YnU2aWR2In0.OdqH3NLK3-fyd6UDcI5gbQ';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            center: [-73.93006, 40.69218],
+            style: 'mapbox://styles/mapbox/streets-v11',
+            zoom: 10
+        });
 
-      var southWest = L.latLng(40.40699857483299, -74.58963551742433), // lower left corner (e.g., New York)
-      northEast = L.latLng(41.00965094991757, -73.61177016947053); // upper right corner (e.g., Los Angeles)
-      
-      var bounds = L.latLngBounds(southWest, northEast);
+        // this counts as loading your data
+        const geojson_values = {
+          type: 'FeatureCollection',
+          features: []
 
-      const map = L.map('map', {minZoom:10, maxZoom: 14, maxBounds: bounds, maxBoundsViscosity: 1.0}).setView([40.70811065720056, -73.97231715755181], 11).fitBounds(bounds)
-      var layer = protomapsL.leafletLayer({url:'https://isaacdonis.github.io/my_area.pmtiles'})
+        };
 
-        // use this icon
-        var custom_icon = L.Icon.extend({
-          options: {
-               iconUrl: "static/images/mapbox-icon.png",
-               iconSize: new L.Point(10, 10),
-             }
-           });
-
-        var smaller_icon = new custom_icon();
-        layer.addTo(map)
-
-        // get the values from the Django context
         const object_ids = {{object_ids}}
         const lat_values = {{lat}}
         const lon_values = {{lon}}
         const stop_names = {{stop_name | safe}}
         const line_names = {{line_name | safe}}
         const ada_counts = {{adas}}
-
-        // initialize variables
-        var markerCoordinates = []
-
-        for (let i=0; i < object_ids.length; i++) {
-            markerCoordinates.push({lat: lat_values[i], 
-                                    lng: lon_values[i],
-                                    marker_id: object_ids[i],
-                                    stop_name: stop_names[i],
-                                    line_name: line_names[i]})
-        }
-      // Function to show popup on marker hover
-      function showPopup(e) {
-        this.openPopup();
-      }
-
-      // Function to hide popup when marker is no longer hovered over
-      function hidePopup(e) {
-        this.closePopup();
-      }
-
-      markerCoordinates.forEach(coord => {
-        var popup = L.popup().setContent(coord.stop_name + ' - ' + coord.line_name);
-        var markerInstance = L.marker([coord.lat, coord.lng], {icon: smaller_icon, 
-                                          marker_id: coord.marker_id,
-                                          stop_name: coord.stop_name}).addTo(map).on('click', onClick);
         
-        // create the popup values
-        markerInstance.bindPopup(popup);
-        markerInstance.on('mouseover', showPopup);
-        markerInstance.on('mouseout', hidePopup);
+        let i = 0
+        while (i < lat_values.length)
+        {
+            lat = lat_values[i]
+            lon = lon_values[i]
+            geojson_values.features.push({
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [lon, lat]
+                },
+                properties: {
+                    object_id: object_ids[i],
+                    station_name: stop_names[i],
+                    line_name: line_names[i],
+                    ada: ada_counts[i]
+                }
+            })
 
-      });
+            i++
+        }
 
-      function onClick(e) {
-        window.location.href = '/stationfeedback/' + e.target.options['marker_id'];
-      }
+        // Add markers to the map.
+        for (const marker of geojson_values.features) {
+            // Create a DOM element for each marker.
+            const el = document.createElement('div');
+            const width = 5;
+            const height = 5;
+            el.className = 'marker';
+
+            // console.log(marker.properties.ada)
+
+            if (marker.properties.ada > 0) {
+                el.style.backgroundImage = `url(${ICON_URL})`;
+            }
+
+            el.style.width = '10px';
+            el.style.height = '10px';
+            el.style.backgroundSize = '100%';
+            
+            // Add markers to the map.
+            new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .addTo(map);
+            }
+
+
+        map.on('load', () => {
+            /* Add the data to your map as a layer */
+            map.addLayer({
+              id: 'locations',
+              type: 'circle',
+              /* Add a GeoJSON source containing place coordinates and information. */
+              source: {
+                type: 'geojson',
+                data: geojson_values
+              }
+            });
+          });
+
+        var popup = new mapboxgl.Popup({
+            closeOnClick: false,
+            offset: [0, -15]
+          })
+
+        map.on('click', 'locations', (e) => {
+            const properties = e.features[0].properties;
+            const object_id = properties.object_id;
+
+            window.location.href = '/stationfeedback/' + object_id;
+        });
+
+        map.on('mousemove', 'locations', (e) => {
+            const properties = e.features[0].properties;
+            const object_id = properties.object_id;
+            const name = properties.station_name;
+            const line = properties.line_name;
+            const coordinates = e.features[0].geometry.coordinates.slice();
+
+            popup
+                .setLngLat(coordinates)
+                .setHTML(name.concat(' - ').concat(line))
+                .addTo(map);
+        });
+
+        map.on('mouseleave', 'locations', (e) => {
+            popup.remove();
+        });
+
 
     </script>
-
-    {% vite_hmr_client %}
-    {% vite_asset 'map.js' %}    
-    
 {% endblock content %}
