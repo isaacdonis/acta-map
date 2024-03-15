@@ -1,1 +1,1 @@
-web: gunicorn actamap.wsgi --log-file -
+web: gunicorn actamap.wsgi --log-file - --forwarded-allow-ips="*"

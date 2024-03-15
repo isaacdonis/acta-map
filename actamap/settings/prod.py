@@ -20,3 +20,7 @@ DJANGO_VITE = {
         "manifest_path": DJANGO_VITE_ASSETS_PATH / "manifest.json",
     }
 }
+
+# enforce https
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
