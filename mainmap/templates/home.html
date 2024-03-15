@@ -82,18 +82,16 @@
 
             if (marker.properties.ada > 0) {
                 el.style.backgroundImage = `url(${ICON_URL})`;
-            }
-
-            el.style.width = '10px';
-            el.style.height = '10px';
-            el.style.backgroundSize = '100%';
+                el.style.width = '20px';
+                el.style.height = '20px';
+                el.style.backgroundSize = '100%';
             
-            // Add markers to the map.
-            new mapboxgl.Marker(el)
-            .setLngLat(marker.geometry.coordinates)
-            .addTo(map);
+                // Add markers to the map.
+                new mapboxgl.Marker(el)
+                .setLngLat(marker.geometry.coordinates)
+                .addTo(map);
             }
-
+        }
 
         map.on('load', () => {
             /* Add the data to your map as a layer */
