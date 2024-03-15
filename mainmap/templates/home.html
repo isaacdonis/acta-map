@@ -57,7 +57,8 @@
                 type: 'Feature',
                 geometry: {
                     type: 'Point',
-                    coordinates: [lon, lat]
+                    coordinates: [lon, lat],
+                    color: "rgba(255, 0, 0, 0.5)" // color of the marker with 50% opacity
                 },
                 properties: {
                     object_id: object_ids[i],
@@ -102,7 +103,8 @@
               source: {
                 type: 'geojson',
                 data: geojson_values
-              }
+              },
+              paint: {'circle-radius': 2.5}
             });
           });
 
