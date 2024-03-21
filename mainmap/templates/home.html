@@ -1,18 +1,12 @@
 {% extends 'base.html' %}
-{% block content %}
-
 {% load static %}
 
-    <br>
-    <br>
-    <br>
-    <h3 style="text-align: center;">How Accessible is each station?</h3>
-    <p>Click on the links below the map to submit feedback about a station </p>
+{% block content %}
+    <h1 class="text-center mb-4">How Accessible is each station?</h1>
 
     <!-- Main -->
     <main>
-        <br>
-        <div id='map' style='width: 900px; height: 500px;'></div>
+        <div id='map' style='height: 500px;'></div>
     </main>
 
     <!-- Scripts -->
@@ -25,7 +19,7 @@
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiaWNkb25pcyIsImEiOiJjbGZlY3RmYTkwMmxvM3Bxbnp2YnU2aWR2In0.OdqH3NLK3-fyd6UDcI5gbQ';
 
-        <!--Define boundaries-->
+        // Define boundaries
         var bounds = [[-74.58963551742433, 40.40699857483299],
                      [-73.61177016947053, 41.00965094991757]]
                      
@@ -144,5 +138,4 @@
 
 
     </script>
-
 {% endblock content %}
