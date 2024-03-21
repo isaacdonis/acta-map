@@ -1,27 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
 
-<br>
-<br>
+<div class="mt-5">
+    {% if station.feedback_set.all|length == 0 %}
+        <h3>There is no feedback about the {{station.stop_name}} {{station.line}} station yet.</h3>
+    {% else %}
+        <h3>The community has collected these notes about the {{station.stop_name}} {{station.line}} station:</h3>
 
-<!-- INSERT STATION NAME HERE -->
-<h3>The community has collected these notes about the {{station.stop_name}} {{station.line}} station:</h3>
+        <ul class="list-disc">
+            {% for feedback in station.feedback_set.all %}
+                <li>{{feedback.text}}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
 
-<ul class="list-disc">
-    {% for feedback in station.feedback_set.all %}
-        <li>{{feedback.text}}</li>
-    {% endfor %}
-</ul>
+<h4 class="mt-10"><u>ADA information</u></h4>
 
-<br>
-<br>
-
-<h4><u>ADA information</u></h4>
-
-<p> There are {{station.ada}} ADA elevator(s) at this station.</p> <p>{{station.ada_notes}}</p>
-
-<br>
-<br>
+<p class="mb-10">There {{station.ada|pluralize:"is,are"}} {{station.ada}} ADA elevator{{station.ada|pluralize}} at this station.</p> <p>{{station.ada_notes}}</p>
 
 <h3><u>Submit your feedback about this station</h3></u>
 <br>
@@ -29,7 +25,7 @@
 <form action="" method="post">
     {% csrf_token %}
     
-    <textarea name="feedback" rows="4" cols="50" class="peer h-500 min-h-[100px] w-full resize-none rounded-[7px] border border-black border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" placeholder="Enter your feedback here"></textarea>
+    <textarea name="feedback" rows="4" cols="50" class="peer h-500 min-h-[100px] w-full resize-none rounded-[7px] border border-black bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50" placeholder="Enter your feedback here"></textarea>
     <input type="submit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="Share with community">
 </form>
 {% endblock content%}
