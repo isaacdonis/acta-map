@@ -613,6 +613,11 @@ h3 {
   margin-right: auto;
 }
 
+.-mx-4 {
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
 .mb-4 {
   margin-bottom: 1rem;
 }
@@ -1058,5 +1063,9 @@ h3 {
 
   .lg\:items-center {
     align-items: center;
+  }
+
+  .lg\:bg-transparent {
+    background-color: transparent;
   }
 }
