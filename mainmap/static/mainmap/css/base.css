@@ -20,3 +20,7 @@
     @apply text-lg;
   }
 }
+
+div.marker:hover {
+  cursor: pointer;
+}

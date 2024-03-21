@@ -72,23 +72,40 @@
         }
 
         // Add markers to the map.
-        for (const marker of geojson_values.features) {
+        for (const feature of geojson_values.features) {
             // Create a DOM element for each marker.
             const el = document.createElement('div');
             const width = 25;
             const height = 25;
             el.className = 'marker';
 
-            if (marker.properties.ada > 0) {
+            if (feature.properties.ada > 0) {
                 el.style.backgroundImage = `url(${ICON_URL})`;
                 el.style.width = '20px';
                 el.style.height = '20px';
                 el.style.backgroundSize = '100%';
             
                 // Add markers to the map.
-                new mapboxgl.Marker(el)
-                .setLngLat(marker.geometry.coordinates)
-                .addTo(map);
+                new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
+
+                el.addEventListener('click', () => {
+                    window.location.href = '/stationfeedback/' + feature.properties.object_id;
+                });
+
+                let popup = null;
+                // add infowindow on hover
+                el.addEventListener('mouseover', () => {
+                    popup = new mapboxgl.Popup({ offset: 25 })
+                        .setLngLat(feature.geometry.coordinates)
+                        .setHTML(feature.properties.station_name.concat(' - ').concat(feature.properties.line_name))
+                        .addTo(map);
+                });
+                // remove infowindow on mouseout
+                el.addEventListener('mouseout', () => {
+                    if (popup) {
+                        popup.remove();
+                    }
+                });
             }
         }
 
@@ -117,24 +134,6 @@
 
             window.location.href = '/stationfeedback/' + object_id;
         });
-
-        map.on('mousemove', 'locations', (e) => {
-            const properties = e.features[0].properties;
-            const object_id = properties.object_id;
-            const name = properties.station_name;
-            const line = properties.line_name;
-            const coordinates = e.features[0].geometry.coordinates.slice();
-
-            popup
-                .setLngLat(coordinates)
-                .setHTML(name.concat(' - ').concat(line))
-                .addTo(map);
-        });
-
-        map.on('mouseleave', 'locations', (e) => {
-            popup.remove();
-        });
-
 
     </script>
 </div>
